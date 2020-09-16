@@ -192,7 +192,7 @@ ITEM.functions.Equip = {
 			client:ResetBodygroups()
 		end
 
-		if (item.bodyGroups) then
+		if (istable(item.bodyGroups)) then
 			groups = {}
 
 			for k, value in pairs(item.bodyGroups) do
