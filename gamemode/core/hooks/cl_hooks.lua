@@ -49,41 +49,47 @@ function GM:LoadFonts(font, genericFont)
 	})
 
 	surface.CreateFont("ixMenuMiniFont", {
-		font = "Roboto",
+		-- font = "Roboto",
+		font = font,
 		size = math.max(ScreenScale(4), 18),
 		weight = 300,
 	})
 
 	surface.CreateFont("ixMenuButtonFont", {
-		font = "Roboto Th",
+		-- font = "Roboto Th",
+		font = font,
 		size = ScreenScale(14),
 		extended = true,
 		weight = 100
 	})
 
 	surface.CreateFont("ixMenuButtonFontSmall", {
-		font = "Roboto Th",
+		-- font = "Roboto Th",
+		font = font,
 		size = ScreenScale(10),
 		extended = true,
 		weight = 100
 	})
 
 	surface.CreateFont("ixMenuButtonFontThick", {
-		font = "Roboto",
+		-- font = "Roboto",
+		font = font,
 		size = ScreenScale(14),
 		extended = true,
 		weight = 300
 	})
 
 	surface.CreateFont("ixMenuButtonLabelFont", {
-		font = "Roboto Th",
+		-- font = "Roboto Th",
+		font = font,
 		size = 28,
 		extended = true,
 		weight = 100
 	})
 
 	surface.CreateFont("ixMenuButtonHugeFont", {
-		font = "Roboto Th",
+		-- font = "Roboto Th",
+		font = font,
 		size = ScreenScale(24),
 		extended = true,
 		weight = 100
@@ -97,14 +103,16 @@ function GM:LoadFonts(font, genericFont)
 	})
 
 	surface.CreateFont("ixMonoSmallFont", {
-		font = "Consolas",
+		-- font = "Consolas",
+		font = font,
 		size = 12,
 		extended = true,
 		weight = 800
 	})
 
 	surface.CreateFont("ixMonoMediumFont", {
-		font = "Consolas",
+		-- font = "Consolas",
+		font = font,
 		size = 22,
 		extended = true,
 		weight = 800
@@ -175,14 +183,16 @@ function GM:LoadFonts(font, genericFont)
 	})
 
 	surface.CreateFont("ixSmallTitleFont", {
-		font = "Roboto Th",
+		-- font = "Roboto Th",
+		font = font,
 		size = math.max(ScreenScale(12), 24),
 		extended = true,
 		weight = 100
 	})
 
 	surface.CreateFont("ixMinimalTitleFont", {
-		font = "Roboto",
+		-- font = "Roboto",
+		font = font,
 		size = math.max(ScreenScale(8), 22),
 		extended = true,
 		weight = 800
@@ -219,7 +229,7 @@ function GM:LoadFonts(font, genericFont)
 	})
 
 	-- Introduction fancy font.
-	font = "Roboto Th"
+	-- font = "Roboto Th"
 
 	surface.CreateFont("ixIntroTitleFont", {
 		font = font,
