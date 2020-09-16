@@ -2,7 +2,8 @@
 AddCSLuaFile()
 
 if (CLIENT) then
-	SWEP.PrintName = "Keys"
+	SWEP.PrintName = L("Keys")
+	SWEP.Instructions = L("Primary Fire: Lock\nSecondary Fire: Unlock")
 	SWEP.Slot = 0
 	SWEP.SlotPos = 2
 	SWEP.DrawAmmo = false
@@ -10,7 +11,6 @@ if (CLIENT) then
 end
 
 SWEP.Author = "Chessnut"
-SWEP.Instructions = "Primary Fire: Lock\nSecondary Fire: Unlock"
 SWEP.Purpose = "Hitting things and knocking on doors."
 SWEP.Drop = false
 
