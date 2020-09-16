@@ -393,6 +393,10 @@ if (SERVER) then
 		entity:SetSkin(self:GetSkin())
 		entity:Spawn()
 
+		for _, v in pairs(self:GetBodyGroups()) do
+			entity:SetBodygroup(v.id, self:GetBodygroup(v.id))
+		end
+
 		if (!bDontSetPlayer) then
 			entity:SetNetVar("player", self)
 		end
