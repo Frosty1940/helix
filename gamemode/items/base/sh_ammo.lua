@@ -10,7 +10,7 @@ ITEM.category = "Ammunition"
 ITEM.useSound = "items/ammo_pickup.wav"
 
 function ITEM:GetDescription()
-	return Format(self.description, self.ammoAmount)
+	return Format(L(self.description, self.ammoAmount))
 end
 
 if (CLIENT) then
