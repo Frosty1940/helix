@@ -165,4 +165,102 @@ function PLUGIN:SetupActs()
 		sequence = "d1_t03_lookoutwindow",
 		untimed = true
 	})
+
+	ix.act.Resister("Salute", "player", {
+		sequence = "ACT_GMOD_TAUNT_SALUTE",
+	})
+
+	ix.act.Resister("Advance", "player", {
+		sequence = "ACT_SIGNAL_ADVANCE",
+	})
+
+	ix.act.Resister("Foward", "player", {
+		sequence = "ACT_SIGNAL_FOWARD",
+	})
+
+	ix.act.Resister("Regroup", "player", {
+		sequence = "ACT_SIGNAL_GROUP",
+	})
+
+	ix.act.Resister("Halt", "player", {
+		sequence = "ACT_SIGNAL_HALT",
+	})
+
+	ix.act.Resister("Left", "player", {
+		sequence = "ACT_SIGNAL_LEFT",
+	})
+
+	ix.act.Resister("Right", "player", {
+		sequence = "ACT_SIGNAL_RIGHT",
+	})
+
+	ix.act.Resister("Cover", "player", {
+		sequence = "ACT_SIGNAL_TAKECOVER",
+	})
+
+	ix.act.Register("Sit", "player", {
+		start = "ACT_BUSY_SIT_GROUND_ENTRY",
+		sequence = "ACT_BUSY_SIT_GROUND",
+		finish = {"ACT_BUSY_SIT_GROUND_EXIT", duration = 2.1},
+		untimed = true,
+		idle = true
+	})
+
+	ix.act.Register("Lean", "player", {
+		start = "ACT_BUSY_LEAN_BACK_ENTRY",
+		sequence = {"ACT_BUSY_LEAN_BACK", check = FacingWallBack},
+		finish = {"ACT_BUSY_LEAN_BACK_EXIT", duration = 2.1},
+		untimed = true,
+		idle = true
+	})
+
+	ix.act.Resister("TypeConsole", "overwatch", {
+		sequence = "console_type_loop",
+		untimed = true,
+	})
+
+	ix.act.Resister("Advance", "overwatch", {
+		sequence = "signal_advance",
+	})
+
+	ix.act.Resister("Forward", "overwatch", {
+		sequence = "signal_forward",
+	})
+
+	ix.act.Resister("Regroup", "overwatch", {
+		sequence = "signal_group",
+	})
+
+	ix.act.Resister("Halt", "overwatch", {
+		sequence = "signal_halt",
+	})
+
+	ix.act.Resister("Left", "overwatch", {
+		sequence = "signal_left",
+	})
+
+	ix.act.Resister("Right", "overwatch", {
+		sequence = "signal_right",
+	})
+
+	ix.act.Resister("Cover", "overwatch", {
+		sequence = "signal_takecover",
+	})
+
+	ix.act.Resister("Point", "metrocop", {
+		sequence = "point",
+	})
+
+	ix.act.Resister("Block", "metrocop", {
+		sequence = "blockentry",
+		untimed = true,
+	})
+
+	ix.act.Resister("Startle", "metrocop", {
+		sequence = "canal5breact1",
+	})
+
+	ix.act.Resister("Warn", "metrocop", {
+		sequence = "luggagewarn",
+	})
 end
