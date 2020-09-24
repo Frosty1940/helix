@@ -166,38 +166,38 @@ function PLUGIN:SetupActs()
 		untimed = true
 	})
 
-	ix.act.Resister("Salute", "player", {
+	ix.act.Register("Salute", "player", {
 		sequence = "ACT_GMOD_TAUNT_SALUTE",
 	})
 
-	ix.act.Resister("Advance", "player", {
+	ix.act.Register("Advance", "player", {
 		sequence = "ACT_SIGNAL_ADVANCE",
 	})
 
-	ix.act.Resister("Foward", "player", {
+	ix.act.Register("Foward", "player", {
 		sequence = "ACT_SIGNAL_FOWARD",
 	})
 
-	ix.act.Resister("Regroup", "player", {
+	ix.act.Register("Regroup", "player", {
 		sequence = "ACT_SIGNAL_GROUP",
 	})
 
-	ix.act.Resister("Halt", "player", {
+	ix.act.Register("Halt", "player", {
 		sequence = "ACT_SIGNAL_HALT",
 	})
 
-	ix.act.Resister("Left", "player", {
+	ix.act.Register("Left", "player", {
 		sequence = "ACT_SIGNAL_LEFT",
 	})
 
-	ix.act.Resister("Right", "player", {
+	ix.act.Register("Right", "player", {
 		sequence = "ACT_SIGNAL_RIGHT",
 	})
 
-	ix.act.Resister("Cover", "player", {
+	ix.act.Register("Cover", "player", {
 		sequence = "ACT_SIGNAL_TAKECOVER",
 	})
-
+	
 	ix.act.Register("Sit", "player", {
 		start = "ACT_BUSY_SIT_GROUND_ENTRY",
 		sequence = "ACT_BUSY_SIT_GROUND",
@@ -214,53 +214,53 @@ function PLUGIN:SetupActs()
 		idle = true
 	})
 
-	ix.act.Resister("TypeConsole", "overwatch", {
+	ix.act.Register("TypeConsole", "overwatch", {
 		sequence = "console_type_loop",
 		untimed = true,
 	})
 
-	ix.act.Resister("Advance", "overwatch", {
+	ix.act.Register("Advance", "overwatch", {
 		sequence = "signal_advance",
 	})
 
-	ix.act.Resister("Forward", "overwatch", {
+	ix.act.Register("Forward", "overwatch", {
 		sequence = "signal_forward",
 	})
 
-	ix.act.Resister("Regroup", "overwatch", {
+	ix.act.Register("Regroup", "overwatch", {
 		sequence = "signal_group",
 	})
 
-	ix.act.Resister("Halt", "overwatch", {
+	ix.act.Register("Halt", "overwatch", {
 		sequence = "signal_halt",
 	})
 
-	ix.act.Resister("Left", "overwatch", {
+	ix.act.Register("Left", "overwatch", {
 		sequence = "signal_left",
 	})
 
-	ix.act.Resister("Right", "overwatch", {
+	ix.act.Register("Right", "overwatch", {
 		sequence = "signal_right",
 	})
 
-	ix.act.Resister("Cover", "overwatch", {
+	ix.act.Register("Cover", "overwatch", {
 		sequence = "signal_takecover",
 	})
 
-	ix.act.Resister("Point", "metrocop", {
+	ix.act.Register("Point", "metrocop", {
 		sequence = "point",
 	})
 
-	ix.act.Resister("Block", "metrocop", {
+	ix.act.Register("Block", "metrocop", {
 		sequence = "blockentry",
 		untimed = true,
 	})
 
-	ix.act.Resister("Startle", "metrocop", {
+	ix.act.Register("Startle", "metrocop", {
 		sequence = "canal5breact1",
 	})
 
-	ix.act.Resister("Warn", "metrocop", {
+	ix.act.Register("Warn", "metrocop", {
 		sequence = "luggagewarn",
 	})
 end
