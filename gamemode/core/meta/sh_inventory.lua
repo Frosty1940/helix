@@ -9,8 +9,8 @@ attaches inventories to props, allowing for items to be stored outside of any ch
 ]]
 -- @classmod Inventory
 
-local META = ix.meta.inventory or {}
-META.__index = META
+local META = ix.meta.inventory or ix.middleclass("ix_inventory")
+
 META.slots = META.slots or {}
 META.w = META.w or 4
 META.h = META.h or 4
@@ -24,6 +24,16 @@ META.receivers = META.receivers or {}
 -- > "inventory[1]"
 function META:__tostring()
 	return "inventory["..(self.id or 0).."]"
+end
+
+function META:Initialize(id, width, height)
+	self.id = id
+	self.w = width
+	self.h = height
+
+	self.slots = {}
+	self.vars = {}
+	self.receivers = {}
 end
 
 --- Returns this inventory's database ID. This is guaranteed to be unique.
@@ -110,7 +120,7 @@ end
 
 --- Returns the player that owns this inventory.
 -- @realm shared
--- @treturn[1] player Owning player
+-- @treturn[1] Player Owning player
 -- @treturn[2] nil If no connected player owns this inventory
 function META:GetOwner()
 	for _, v in ipairs(player.GetAll()) do
@@ -431,6 +441,18 @@ function META:GetBags()
 	return invs
 end
 
+--- Returns the item with the given unique ID (e.g `"handheld_radio"`) if it exists in this inventory. This method checks both
+-- this inventory, and any bags that this inventory has inside of it.
+-- @realm server
+-- @string targetID Unique ID of the item to look for
+-- @tab[opt] data Item data to check for
+-- @treturn[1] Item Item that belongs to this inventory with the given criteria
+-- @treturn[2] bool `false` if the item does not exist
+-- @usage local item = inventory:HasItem("handheld_radio")
+--
+-- if (item) then
+-- 	-- do something with the item table
+-- end
 function META:HasItem(targetID, data)
 	local items = self:GetItems()
 
@@ -530,7 +552,7 @@ if (SERVER) then
 
 	--- Add an item to the inventory.
 	-- @realm server
-	-- @param uniqueID The item unique ID or instance ID to add to the inventory
+	-- @param uniqueID The item unique ID (e.g `"handheld_radio"`) or instance ID (e.g `1024`) to add to the inventory
 	-- @number[opt=1] quantity The quantity of the item to add
 	-- @tab data Item data to add to the item
 	-- @number[opt=nil] x The X position for the item
@@ -704,7 +726,7 @@ if (SERVER) then
 			net.WriteUInt(self:GetID(), 32)
 			net.WriteUInt(self.w, 6)
 			net.WriteUInt(self.h, 6)
-			net.WriteType((receiver == nil or fullUpdate) and self.owner or nil)
+			net.WriteType(self.owner)
 			net.WriteTable(self.vars or {})
 		net.Send(receiver)
 

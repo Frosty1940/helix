@@ -14,7 +14,7 @@ function GM:PlayerInitialSpawn(client)
 		}, botID, client, client:SteamID64())
 		character.isBot = true
 
-		local inventory = ix.item.CreateInv(ix.config.Get("inventoryWidth"), ix.config.Get("inventoryHeight"), botID)
+		local inventory = ix.inventory.Create(ix.config.Get("inventoryWidth"), ix.config.Get("inventoryHeight"), botID)
 		inventory:SetOwner(botID)
 		inventory.noSave = true
 
@@ -436,6 +436,8 @@ local function CalcPlayerCanHearPlayersVoice(listener)
 end
 
 function GM:InitializedConfig()
+	ix.date.Initialize()
+
 	voiceDistance = ix.config.Get("voiceDistance")
 	voiceDistance = voiceDistance * voiceDistance
 end
@@ -734,6 +736,10 @@ function GM:InitPostEntity()
 	end)
 end
 
+function GM:SaveData()
+	ix.date.Save()
+end
+
 function GM:ShutDown()
 	ix.shuttingDown = true
 	ix.config.Save()
@@ -765,8 +771,6 @@ function GM:PlayerDeathSound()
 end
 
 function GM:InitializedSchema()
-	ix.date.Initialize()
-
 	game.ConsoleCommand("sbox_persist ix_"..Schema.folder.."\n")
 end
 
@@ -832,8 +836,7 @@ function GM:PreCleanupMap()
 end
 
 function GM:PostCleanupMap()
-	hook.Run("LoadData")
-	hook.Run("PostLoadData")
+	ix.plugin.RunLoadData()
 end
 
 function GM:CharacterPreSave(character)
@@ -922,5 +925,5 @@ function GM:DatabaseConnected()
 		mysql:Think()
 	end)
 
-	hook.Run("LoadData")
+	ix.plugin.RunLoadData()
 end

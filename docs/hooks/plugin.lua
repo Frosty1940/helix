@@ -261,7 +261,7 @@ function CanPlayerTakeItem(client, item)
 end
 
 --- Whether or not the player is allowed to punch with the hands SWEP.
--- @realm server
+-- @realm shared
 -- @player client Player attempting throw a punch
 -- @treturn bool Whether or not to allow the player to punch
 -- @usage function PLUGIN:CanPlayerThrowPunch(client)
@@ -455,7 +455,20 @@ end
 function GetMaxPlayerCharacter(client)
 end
 
---- @realm server
+--- Returns the sound to emit from the player upon death. If nothing is returned then it will use the default male/female death
+-- sounds.
+-- @realm server
+-- @player client Player that died
+-- @treturn[1] string Sound to play
+-- @treturn[2] bool `false` if a sound shouldn't be played at all
+-- @usage function PLUGIN:GetPlayerDeathSound(client)
+-- 	-- play impact sound every time someone dies
+-- 	return "physics/body/body_medium_impact_hard1.wav"
+-- end
+-- @usage function PLUGIN:GetPlayerDeathSound(client)
+-- 	-- don't play a sound at all
+-- 	return false
+-- end
 function GetPlayerDeathSound(client)
 end
 
@@ -483,7 +496,24 @@ end
 function GetTypingIndicator(character, text)
 end
 
---- @realm shared
+--- Registers chat classes after the core framework chat classes have been registered. You should usually create your chat
+-- classes in this hook - especially if you want to reference the properties of a framework chat class.
+-- @realm shared
+-- @usage function PLUGIN:InitializedChatClasses()
+-- 	-- let's say you wanted to reference an existing chat class's color
+-- 	ix.chat.Register("myclass", {
+-- 		format = "%s says \"%s\"",
+-- 		GetColor = function(self, speaker, text)
+-- 			-- make the chat class slightly brighter than the "ic" chat class
+-- 			local color = ix.chat.classes.ic:GetColor(speaker, text)
+--
+-- 			return Color(color.r + 35, color.g + 35, color.b + 35)
+-- 		end,
+-- 		-- etc.
+-- 	})
+-- end
+-- @see ix.chat.Register
+-- @see ix.chat.classes
 function InitializedChatClasses()
 end
 
@@ -551,15 +581,29 @@ end
 function OnCharacterDisconnect(client, character)
 end
 
---- @realm shared
+--- @realm server
 function OnCharacterFallover(client, entity, bFallenOver)
+end
+
+--- Called when a character has gotten up from the ground.
+-- @realm server
+-- @player client Player that has gotten up
+-- @entity ragdoll Ragdoll used to represent the player
+function OnCharacterGetup(client, ragdoll)
 end
 
 --- @realm client
 function OnCharacterMenuCreated(panel)
 end
 
---- @realm shared
+--- Called whenever an item entity has spawned in the world. You can access the entity's item table with
+-- `entity:GetItemTable()`.
+-- @realm server
+-- @entity entity Spawned item entity
+-- @usage function PLUGIN:OnItemSpawned(entity)
+-- 	local item = entity:GetItemTable()
+-- 	-- do something with the item here
+-- end
 function OnItemSpawned(entity)
 end
 

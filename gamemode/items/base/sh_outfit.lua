@@ -118,6 +118,10 @@ end
 
 ITEM:Hook("drop", function(item)
 	if (item:GetData("equip")) then
+		local character = ix.char.loaded[item.owner]
+		local client = character and character:GetPlayer() or item:GetOwner()
+
+		item.player = client
 		item:RemoveOutfit(item:GetOwner())
 	end
 end)
@@ -134,7 +138,7 @@ ITEM.functions.EquipUn = { -- sorry, for name order.
 		local client = item.player
 
 		return !IsValid(item.entity) and IsValid(client) and item:GetData("equip") == true and
-			hook.Run("CanPlayerUnequipItem", client, item) != false and item.invID == client:GetCharacter():GetInventory():GetID()
+			hook.Run("CanPlayerUnequipItem", client, item) != false
 	end
 }
 
@@ -228,7 +232,7 @@ ITEM.functions.Equip = {
 		local client = item.player
 
 		return !IsValid(item.entity) and IsValid(client) and item:GetData("equip") != true and item:CanEquipOutfit() and
-			hook.Run("CanPlayerEquipItem", client, item) != false and item.invID == client:GetCharacter():GetInventory():GetID()
+			hook.Run("CanPlayerEquipItem", client, item) != false
 	end
 }
 

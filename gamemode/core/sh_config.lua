@@ -30,6 +30,8 @@ CAMI.RegisterPrivilege({
 -- @bool[opt=false] bNoNetworking Whether or not to prevent networking the config
 -- @bool[opt=false] bSchemaOnly Whether or not the config is for the schema only
 function ix.config.Add(key, value, description, callback, data, bNoNetworking, bSchemaOnly)
+	data = istable(data) and data or {}
+
 	local oldConfig = ix.config.stored[key]
 	local type = data.type or ix.util.GetTypeFromValue(value)
 
@@ -38,13 +40,25 @@ function ix.config.Add(key, value, description, callback, data, bNoNetworking, b
 		return
 	end
 
+	local default = value
 	data.type = nil
+
+	-- using explicit nil comparisons so we don't get caught by a config's value being `false`
+	if (oldConfig != nil) then
+		if (oldConfig.value != nil) then
+			value = oldConfig.value
+		end
+
+		if (oldConfig.default != nil) then
+			default = oldConfig.default
+		end
+	end
 
 	ix.config.stored[key] = {
 		type = type,
 		data = data,
-		value = oldConfig and oldConfig.value or value,
-		default = oldConfig and oldConfig.default or value,
+		value = value,
+		default = default,
 		description = description,
 		bNoNetworking = bNoNetworking,
 		global = !bSchemaOnly,

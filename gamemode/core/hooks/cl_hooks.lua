@@ -407,8 +407,6 @@ function GM:InitPostEntity()
 	ix.joinTime = RealTime() - 0.9716
 	ix.option.Sync()
 
-	LocalPlayer():SetIK(false)
-
 	ix.gui.bars = vgui.Create("ixInfoBarManager")
 end
 
@@ -449,7 +447,8 @@ timer.Create("ixVignetteChecker", 1, 0, function()
 			data.filter = client
 		local trace = util.TraceLine(data)
 
-		if (trace.Hit) then
+		-- this timer could run before InitPostEntity is called, so we have to check for the validity of the trace table
+		if (trace and trace.Hit) then
 			vignetteAlphaGoal = 80
 		else
 			vignetteAlphaGoal = 0
@@ -982,5 +981,6 @@ hook.Add("player_spawn", "ixPlayerSpawn", function(data)
 	if (IsValid(client)) then
 		-- GetBoneName returns __INVALIDBONE__ for everything the first time you use it, so we'll force an update to make them valid
 		client:SetupBones()
+		client:SetIK(false)
 	end
 end)
