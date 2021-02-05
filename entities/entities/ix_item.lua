@@ -25,6 +25,7 @@ if (SERVER) then
 		self:SetSolid(SOLID_VPHYSICS)
 		self:PhysicsInit(SOLID_VPHYSICS)
 		self:SetUseType(SIMPLE_USE)
+		self:SetCollisionGroup(COLLISION_GROUP_NPC_ACTOR)
 		self.health = 50
 
 		local physObj = self:GetPhysicsObject()
@@ -59,10 +60,17 @@ if (SERVER) then
 		local itemTable = ix.item.instances[itemID]
 
 		if (itemTable) then
+			local model = itemTable.OnGetDropModel and itemTable:OnGetDropModel(self) or itemTable:GetModel(self)
+
 			local material = itemTable:GetMaterial(self)
 
 			self:SetSkin(itemTable:GetSkin())
-			self:SetModel(itemTable:GetModel())
+			if (itemTable.worldModel) then
+				self:SetModel(itemTable.worldModel == true and "models/props_junk/cardboard_box004a.mdl" or itemTable.worldModel)
+			else
+				self:SetModel(model)
+			end
+			self:SetModel(model)
 
 			if (material) then
 				self:SetMaterial(material)
