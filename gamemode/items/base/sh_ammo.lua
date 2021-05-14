@@ -11,7 +11,7 @@ ITEM.useSound = "items/ammo_pickup.wav"
 
 function ITEM:GetDescription()
 	local rounds = self:GetData("rounds", self.ammoAmount)
-	return Format(self.description, rounds)
+	return Format(L(self.description, rounds))
 end
 
 if (CLIENT) then
