@@ -20,6 +20,7 @@ ITEM.replacements = {
 	{"male", "female"},
 	{"group01", "group02"}
 }
+
 -- This will apply body groups.
 ITEM.bodyGroups = {
 	["blade"] = 1,
