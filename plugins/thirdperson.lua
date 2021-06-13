@@ -27,17 +27,17 @@ if (CLIENT) then
 		hidden = isHidden
 	})
 
-	ix.option.Add("thirdpersonVertical", ix.type.number, 10, {
+	ix.option.Add("thirdpersonVertical", ix.type.number, 0, {
 		category = "thirdperson", min = 0, max = 30,
 		hidden = isHidden
 	})
 
-	ix.option.Add("thirdpersonHorizontal", ix.type.number, 0, {
+	ix.option.Add("thirdpersonHorizontal", ix.type.number, 20, {
 		category = "thirdperson", min = -30, max = 30,
 		hidden = isHidden
 	})
 
-	ix.option.Add("thirdpersonDistance", ix.type.number, 50, {
+	ix.option.Add("thirdpersonDistance", ix.type.number, 100, {
 		category = "thirdperson", min = 0, max = 100,
 		hidden = isHidden
 	})
