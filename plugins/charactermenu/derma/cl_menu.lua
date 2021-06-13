@@ -2,7 +2,6 @@
 local gradient = surface.GetTextureID("vgui/gradient-d")
 local audioFadeInTime = 2
 local animationTime = 0.5
-local matrixZScale = Vector(1, 1, 0.0001)
 
 -- character menu panel
 DEFINE_BASECLASS("ixSubpanelParent")
@@ -31,10 +30,10 @@ function PANEL:Dim(length, callback)
 	self:CreateAnimation(length, {
 		target = {
 			currentDimAmount = self.targetDimAmount,
-			currentScale = self.targetScale
+			currentScale = self.targetScale,
+			OnComplete = callback
 		},
-		easing = "outCubic",
-		OnComplete = callback
+		easing = "outCubic"
 	})
 
 	self:OnDim()
@@ -70,7 +69,7 @@ function PANEL:Paint(width, height)
 	-- draw child panels with scaling if needed
 	if (bShouldScale) then
 		matrix = Matrix()
-		matrix:Scale(matrixZScale * self.currentScale)
+		matrix:Scale(Vector(1, 1, 0.0001) * self.currentScale)
 		matrix:Translate(Vector(
 			ScrW() * 0.5 - (ScrW() * self.currentScale * 0.5),
 			ScrH() * 0.5 - (ScrH() * self.currentScale * 0.5),
@@ -96,7 +95,7 @@ function PANEL:Paint(width, height)
 	end
 end
 
-vgui.Register("ixCharMenuPanel", PANEL, "ixSubpanelParent")
+vgui.Register("ixCharacterMenuPanel", PANEL, "ixSubpanelParent")
 
 -- character menu main button list
 PANEL = {}
@@ -104,30 +103,16 @@ PANEL = {}
 function PANEL:Init()
 	local parent = self:GetParent()
 	self:SetSize(parent:GetWide() * 0.25, parent:GetTall())
-
-	self:GetVBar():SetWide(0)
-	self:GetVBar():SetVisible(false)
 end
 
 function PANEL:Add(name)
 	local panel = vgui.Create(name, self)
-	panel:Dock(TOP)
+	panel:Dock(BOTTOM)
 
 	return panel
 end
 
-function PANEL:SizeToContents()
-	self:GetCanvas():InvalidateLayout(true)
-
-	-- if the canvas has extra space, forcefully dock to the bottom so it doesn't anchor to the top
-	if (self:GetTall() > self:GetCanvas():GetTall()) then
-		self:GetCanvas():Dock(BOTTOM)
-	else
-		self:GetCanvas():Dock(NODOCK)
-	end
-end
-
-vgui.Register("ixCharMenuButtonList", PANEL, "DScrollPanel")
+vgui.Register("ixCharacterMenuButtonList", PANEL, "EditablePanel")
 
 -- main character menu panel
 PANEL = {}
@@ -171,7 +156,7 @@ function PANEL:Init()
 		ix.util.DrawBlur(panel, 15, nil, 200)
 
 		-- background dim
-		surface.SetDrawColor(0, 0, 0, 100)
+		surface.SetDrawColor(Color(0, 0, 0, 100))
 		surface.DrawRect(0, y, width, newHeight)
 
 		-- border lines
@@ -230,13 +215,51 @@ function PANEL:Init()
 	end
 
 	-- button list
-	self.mainButtonList = self:Add("ixCharMenuButtonList")
-	self.mainButtonList:Dock(LEFT)
+	local mainButtonList = self:Add("ixCharacterMenuButtonList")
+	mainButtonList:Dock(LEFT)
+
+	-- leave/return button
+	self.returnButton = mainButtonList:Add("ixMenuButton")
+	self:UpdateReturnButton()
+	self.returnButton.DoClick = function()
+		if (self.bUsingCharacter) then
+			parent:Close()
+		else
+			RunConsoleCommand("disconnect")
+		end
+	end
+
+	-- community button
+	local extraURL = ix.config.Get("communityURL", "")
+	local extraText = ix.config.Get("communityText", "@community")
+
+	if (extraURL != "" and extraText != "") then
+		if (extraText:sub(1, 1) == "@") then
+			extraText = L(extraText:sub(2))
+		end
+
+		local extraButton = mainButtonList:Add("ixMenuButton")
+		extraButton:SetText(extraText, true)
+		extraButton.DoClick = function()
+			gui.OpenURL(extraURL)
+		end
+	end
+
+	-- load character button
+	self.loadButton = mainButtonList:Add("ixMenuButton")
+	self.loadButton:SetText("load")
+	self.loadButton.DoClick = function()
+		self:Dim()
+		parent.loadCharacterPanel:SlideUp()
+	end
+
+	if (!bHasCharacter) then
+		self.loadButton:SetDisabled(true)
+	end
 
 	-- create character button
-	local createButton = self.mainButtonList:Add("ixMenuButton")
+	local createButton = mainButtonList:Add("ixMenuButton")
 	createButton:SetText("create")
-	createButton:SizeToContents()
 	createButton.DoClick = function()
 		local maximum = hook.Run("GetMaxPlayerCharacter", LocalPlayer()) or ix.config.Get("maxCharacters", 5)
 		-- don't allow creation if we've hit the character limit
@@ -249,49 +272,6 @@ function PANEL:Init()
 		parent.newCharacterPanel:SetActiveSubpanel("faction", 0)
 		parent.newCharacterPanel:SlideUp()
 	end
-
-	-- load character button
-	self.loadButton = self.mainButtonList:Add("ixMenuButton")
-	self.loadButton:SetText("load")
-	self.loadButton:SizeToContents()
-	self.loadButton.DoClick = function()
-		self:Dim()
-		parent.loadCharacterPanel:SlideUp()
-	end
-
-	if (!bHasCharacter) then
-		self.loadButton:SetDisabled(true)
-	end
-
-	-- community button
-	local extraURL = ix.config.Get("communityURL", "")
-	local extraText = ix.config.Get("communityText", "@community")
-
-	if (extraURL != "" and extraText != "") then
-		if (extraText:sub(1, 1) == "@") then
-			extraText = L(extraText:sub(2))
-		end
-
-		local extraButton = self.mainButtonList:Add("ixMenuButton")
-		extraButton:SetText(extraText, true)
-		extraButton:SizeToContents()
-		extraButton.DoClick = function()
-			gui.OpenURL(extraURL)
-		end
-	end
-
-	-- leave/return button
-	self.returnButton = self.mainButtonList:Add("ixMenuButton")
-	self:UpdateReturnButton()
-	self.returnButton.DoClick = function()
-		if (self.bUsingCharacter) then
-			parent:Close()
-		else
-			RunConsoleCommand("disconnect")
-		end
-	end
-
-	self.mainButtonList:SizeToContents()
 end
 
 function PANEL:UpdateReturnButton(bValue)
@@ -300,7 +280,6 @@ function PANEL:UpdateReturnButton(bValue)
 	end
 
 	self.returnButton:SetText(bValue and "return" or "leave")
-	self.returnButton:SizeToContents()
 end
 
 function PANEL:OnDim()
@@ -327,13 +306,7 @@ function PANEL:OnClose()
 	end
 end
 
-function PANEL:PerformLayout(width, height)
-	local padding = self:GetPadding()
-
-	self.mainButtonList:SetPos(padding, height - self.mainButtonList:GetTall() - padding)
-end
-
-vgui.Register("ixCharMenuMain", PANEL, "ixCharMenuPanel")
+vgui.Register("ixCharacterMenuMain", PANEL, "ixCharacterMenuPanel")
 
 -- container panel
 PANEL = {}
@@ -355,14 +328,14 @@ function PANEL:Init()
 	self:SetPos(0, 0)
 
 	-- main menu panel
-	self.mainPanel = self:Add("ixCharMenuMain")
+	self.mainPanel = self:Add("ixCharacterMenuMain")
 
 	-- new character panel
-	self.newCharacterPanel = self:Add("ixCharMenuNew")
+	self.newCharacterPanel = self:Add("ixCharacterMenuCreate")
 	self.newCharacterPanel:SlideDown(0)
 
 	-- load character panel
-	self.loadCharacterPanel = self:Add("ixCharMenuLoad")
+	self.loadCharacterPanel = self:Add("ixCharacterMenuLoad")
 	self.loadCharacterPanel:SlideDown(0)
 
 	-- notice bar
@@ -440,12 +413,8 @@ function PANEL:OnCharacterLoadFailed(error)
 	self:ShowNotice(3, error)
 end
 
-function PANEL:IsClosing()
-	return self.bClosing
-end
-
 function PANEL:Close(bFromMenu)
-	self.bClosing = true
+	self:SetClosing(true)
 	self.bFromMenu = bFromMenu
 
 	local fadeOutTime = animationTime * 8
@@ -514,28 +483,28 @@ end
 
 function PANEL:Paint(width, height)
 	surface.SetTexture(gradient)
-	surface.SetDrawColor(0, 0, 0, 255)
+	surface.SetDrawColor(Color(0, 0, 0, 255))
 	surface.DrawTexturedRect(0, 0, width, height)
 
 	if (!ix.option.Get("cheapBlur", false)) then
-		surface.SetDrawColor(0, 0, 0, 150)
+		surface.SetDrawColor(Color(0, 0, 0, 150))
 		surface.DrawTexturedRect(0, 0, width, height)
 		ix.util.DrawBlur(self, Lerp((self.currentAlpha - 200) / 255, 0, 10))
 	end
 end
 
 function PANEL:PaintOver(width, height)
-	if (self.bClosing and self.bFromMenu) then
+	if (self:IsClosing() and self.bFromMenu) then
 		surface.SetDrawColor(color_black)
 		surface.DrawRect(0, 0, width, height)
 	end
 end
 
-vgui.Register("ixCharMenu", PANEL, "EditablePanel")
+vgui.Register("ixCharacterMenu", PANEL, "ixCharacterMenuBase")
 
 if (IsValid(ix.gui.characterMenu)) then
 	ix.gui.characterMenu:Remove()
 
 	--TODO: REMOVE ME
-	ix.gui.characterMenu = vgui.Create("ixCharMenu")
+	ix.gui.characterMenu = vgui.Create("ixCharacterMenu")
 end
