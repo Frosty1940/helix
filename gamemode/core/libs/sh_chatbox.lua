@@ -444,6 +444,7 @@ do
 			end,
 			CanHear = ix.config.Get("chatRange", 280) * 0.25,
 			prefix = {"/W", "/Whisper"},
+			font = "ixChatFontSmall",
 			description = "@cmdW",
 			indicator = "chatWhispering"
 		})
@@ -459,6 +460,7 @@ do
 			end,
 			CanHear = ix.config.Get("chatRange", 280) * 2,
 			prefix = {"/Y", "/Yell"},
+			font = "ixChatFontBig",
 			description = "@cmdY",
 			indicator = "chatYelling"
 		})
