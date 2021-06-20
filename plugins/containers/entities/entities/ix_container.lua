@@ -143,7 +143,7 @@ else
 
 		local title = tooltip:AddRow("name")
 		title:SetImportant()
-		title:SetText(self:GetDisplayName())
+		title:SetText(L(self:GetDisplayName()))
 		title:SetBackgroundColor(ix.config.Get("color"))
 		title:SetTextInset(iconWidth + 8, 0)
 		title:SizeToContents()
@@ -160,7 +160,7 @@ else
 		end
 
 		local description = tooltip:AddRow("description")
-		description:SetText(definition.description)
+		description:SetText(L(definition.description))
 		description:SizeToContents()
 	end
 end

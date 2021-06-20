@@ -11,84 +11,84 @@
 
 ix.container.Register("models/props_junk/wood_crate001a.mdl", {
 	name = "Crate",
-	description = "A simple wooden crate.",
+	description = "containerCrateDesc",
 	width = 4,
 	height = 4,
 })
 
 ix.container.Register("models/props_c17/lockers001a.mdl", {
 	name = "Locker",
-	description = "A white locker.",
+	description = "containerLockerDesc",
 	width = 3,
 	height = 5,
 })
 
 ix.container.Register("models/props_wasteland/controlroom_storagecloset001a.mdl", {
 	name = "Metal Cabinet",
-	description = "A green metal cabinet.",
+	description = "containerMetalCabinetDesc",
 	width = 4,
 	height = 5,
 })
 
 ix.container.Register("models/props_wasteland/controlroom_storagecloset001b.mdl", {
 	name = "Metal Cabinet",
-	description = "A green metal cabinet.",
+	description = "containerMetalCabinetDesc",
 	width = 4,
 	height = 5,
 })
 
 ix.container.Register("models/props_wasteland/controlroom_filecabinet001a.mdl", {
 	name = "File Cabinet",
-	description = "A metal filing cabinet.",
+	description = "containerFileCabinetDesc",
 	width = 5,
 	height = 3
 })
 
 ix.container.Register("models/props_wasteland/controlroom_filecabinet002a.mdl", {
 	name = "File Cabinet",
-	description = "A metal filing cabinet.",
+	description = "containerFileCabinetDesc",
 	width = 3,
 	height = 6,
 })
 
 ix.container.Register("models/props_lab/filecabinet02.mdl", {
 	name = "File Cabinet",
-	description = "A metal filing cabinet.",
+	description = "containerFileCabinetDesc",
 	width = 5,
 	height = 3
 })
 
 ix.container.Register("models/props_c17/furniturefridge001a.mdl", {
 	name = "Refrigerator",
-	description = "A metal box for keeping food in.",
+	description = "containerRefrigeratorDesc",
 	width = 2,
 	height = 3,
 })
 
 ix.container.Register("models/props_wasteland/kitchen_fridge001a.mdl", {
 	name = "Large Refrigerator",
-	description = "A large metal box for storing even more food in.",
+	description = "containerLargeRefrigeratorDesc",
 	width = 4,
 	height = 5,
 })
 
 ix.container.Register("models/props_junk/trashbin01a.mdl", {
 	name = "Trash Bin",
-	description = "What do you expect to find in here?",
+	description = "containerTrashBinDesc",
 	width = 2,
 	height = 2,
 })
 
 ix.container.Register("models/props_junk/trashdumpster01a.mdl", {
 	name = "Dumpster",
-	description = "A dumpster meant to stow away trash. It emanates an unpleasant smell.",
+	description = "containerDumpsterDesc",
 	width = 6,
 	height = 3
 })
 
 ix.container.Register("models/items/ammocrate_smg1.mdl", {
 	name = "Ammo Crate",
-	description = "A heavy crate that stores ammo.",
+	description = "containerAmmoCrateDesc",
 	width = 5,
 	height = 3,
 	OnOpen = function(entity, activator)
@@ -106,21 +106,112 @@ ix.container.Register("models/items/ammocrate_smg1.mdl", {
 
 ix.container.Register("models/props_forest/footlocker01_closed.mdl", {
 	name = "Footlocker",
-	description = "A small chest to store belongings in.",
+	description = "containerFootlockerDesc",
 	width = 5,
 	height = 3
 })
 
 ix.container.Register("models/Items/item_item_crate.mdl", {
 	name = "Item Crate",
-	description = "A crate to store some belongings in.",
+	description = "containerItemCrateDesc",
 	width = 5,
 	height = 3
 })
 
 ix.container.Register("models/props_c17/cashregister01a.mdl", {
 	name = "Cash Register",
-	description = "A register with some buttons and a drawer.",
+	description = "containerCashRegisterDesc",
 	width = 2,
 	height = 1
+})
+
+ix.container.Register("models/props_junk/cardboard_box001a.mdl", {
+	name = "Cardboard Box",
+	description = "containerCardboardBoxDesc",
+	width = 5,
+	height = 3
+})
+
+ix.container.Register("models/props_junk/cardboard_box002a.mdl", {
+	name = "Cardboard Box",
+	description = "containerCardboardBoxDesc",
+	width = 5,
+	height = 3
+})
+
+ix.container.Register("models/props_junk/cardboard_box003a.mdl", {
+	name = "Cardboard Box",
+	description = "containerCardboardBoxDesc",
+	width = 4,
+	height = 2
+})
+
+ix.container.Register("models/props_junk/cardboard_box004a.mdl", {
+	name = "Cardboard Box",
+	description = "containerCardboardBoxDesc",
+	width = 1,
+	height = 1
+})
+
+ix.container.Register("models/props_trainstation/trashcan_indoor001a.mdl", {
+	name = "Trash Can",
+	description = "containerTrashCanDesc",
+	width = 2,
+	height = 2,
+})
+
+ix.container.Register("models/props_c17/FurnitureDrawer001a.mdl", {
+	name = "Drawer",
+	description = "containerDrawerDesc",
+	width = 5,
+	height = 3,
+})
+
+ix.container.Register("models/props_c17/FurnitureDrawer002a.mdl", {
+	name = "Drawer",
+	description = "containerDrawerDesc",
+	width = 2,
+	height = 1,
+})
+
+ix.container.Register("models/props_c17/FurnitureDresser001a.mdl", {
+	name = "Dresser",
+	description = "containerDresserDesc",
+	width = 4,
+	height = 5,
+})
+
+ix.container.Register("models/props_c17/furnitureStove001a.mdl", {
+	name = "Stove",
+	description = "containerStoveDesc",
+	width = 4,
+	height = 3,
+})
+
+ix.container.Register("models/props_c17/FurnitureWashingmachine001a.mdl", {
+	name = "Washing Machine",
+	description = "containerWashingMachineDesc",
+	width = 2,
+	height = 2,
+})
+
+ix.container.Register("models/props_interiors/Furniture_Desk01a.mdl", {
+	name = "Desk",
+	description = "containerDeskDesc",
+	width = 4,
+	height = 2,
+})
+
+ix.container.Register("models/props_wasteland/controlroom_desk001b.mdl", {
+	name = "Metal Desk",
+	description = "containerMetalDeskDesc",
+	width = 6,
+	height = 1,
+})
+
+ix.container.Register("models/cca_tech_props/combine_cargo01a.mdl", {
+	name = "Combine Crate",
+	description = "containerCombineCrateDesc",
+	width = 5,
+	height = 3,
 })
