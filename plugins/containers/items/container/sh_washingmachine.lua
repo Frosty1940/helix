@@ -1,4 +1,0 @@
-ITEM.name = "Washing Machine"
-ITEM.description = "containerWashingMachineDesc"
-ITEM.model = "models/props_c17/FurnitureWashingmachine001a.mdl"
-ITEM.price = 80
