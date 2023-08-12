@@ -416,6 +416,7 @@ do
 			GetColor = ix.chat.classes.ic.GetColor,
 			CanHear = ix.config.Get("chatRange", 280) * 2,
 			prefix = {"/Me", "/Action"},
+			font = "ixChatFontItalics",
 			description = "@cmdMe",
 			indicator = "chatPerforming",
 			deadCanChat = true
@@ -428,6 +429,7 @@ do
 			end,
 			CanHear = ix.config.Get("chatRange", 280) * 2,
 			prefix = {"/It"},
+			font = "ixChatFontItalics",
 			description = "@cmdIt",
 			indicator = "chatPerforming",
 			deadCanChat = true
@@ -586,9 +588,11 @@ ix.chat.Register("pm", {
 ix.chat.Register("event", {
 	CanHear = 1000000,
 	OnChatAdd = function(self, speaker, text)
-		chat.AddText(Color(255, 150, 0), text)
+		chat.AddText(ix.config.Get("color"), "** ─ "..text)
 	end,
-	indicator = "chatPerforming"
+	font = "ixChatFontItalicsBig",
+	indicator = "chatPerforming",
+	deadCanChat = true
 })
 
 ix.chat.Register("connect", {

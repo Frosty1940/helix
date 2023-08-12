@@ -180,6 +180,14 @@ function GM:LoadFonts(font, genericFont)
 		italic = true
 	})
 
+	surface.CreateFont("ixChatFontItalicsBig", {
+		font = font,
+		size = math.max(ScreenScale(8), 17) * ix.option.Get("chatFontScale", 1),
+		extended = true,
+		weight = 450,
+		italic = true
+	})
+
 	surface.CreateFont("ixChatFontSmall", {
 		font = font,
 		size = math.max(ScreenScale(6), 17) * ix.option.Get("chatFontScale", 1),
