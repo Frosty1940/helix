@@ -452,7 +452,7 @@ LANGUAGE = {
 
 	Instructions = "설명",
 	Hands = "손",
-	["Primary Fire: Throw/Punch\nSecondary Fire: Knock/Pickup\nReload: Drop"] = "왼쪽 클릭: 던지기/주먹질하기\n오른쪽 클릭: 노크하기/집어들기\n장전 버튼: 내려놓기",
+	["Primary Fire: Throw/Punch\nSecondary Fire: Knock/Pickup\nSecondary Fire + Mouse: Rotate Object\nReload: Drop"] = "왼쪽 클릭: 던지기/주먹질하기\n오른쪽 클릭: 노크하기/집어들기\n오른쪽 클릭 + 마우스: 물체 회전\n재장전 버튼: 내려놓기",
 	Keys = "열쇠",
 	["Primary Fire: Lock\nSecondary Fire: Unlock"] = "왼쪽 클릭: 잠그기\n오른쪽 클릭: 잠금 해제하기",
 }
