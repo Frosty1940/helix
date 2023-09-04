@@ -316,6 +316,7 @@ LANGUAGE = {
 	wrongPassword = "비밀번호가 틀렸습니다!",
 	respawning = "부활 중...",
 	tellAdmin = "관리자에게 이 오류를 신고해주세요: %s",
+	syntax = "구문: %s",
 
 	scoreboard = "플레이어 목록",
 	ping = "핑: %d",
