@@ -260,6 +260,7 @@ LANGUAGE = {
 	vmRem = "You have removed your voicemail.",
 	noPerm = "You are not allowed to do this!",
 	youreDead = "You are Dead",
+	injDead = "Seems dead already",
 	injMajor = "Seems critically injured",
 	injLittle = "Seems injured",
 	chgName = "Change Name",

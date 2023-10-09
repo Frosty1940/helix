@@ -707,6 +707,7 @@ function GM:ShouldPopulateEntityInfo(entity)
 end
 
 local injTextTable = {
+	[0] = {"injDead", Color(192, 57, 43)},
 	[.3] = {"injMajor", Color(192, 57, 43)},
 	[.6] = {"injLittle", Color(231, 76, 60)},
 }
@@ -715,8 +716,8 @@ function GM:GetInjuredText(client)
 	local health = client:Health()
 
 	for k, v in pairs(injTextTable) do
-		if ((health / client:GetMaxHealth()) < k) then
-			return v[1], v[2]
+		if ((health / client:GetMaxHealth()) <= k) then
+			return v[1], v[2], v[3]
 		end
 	end
 end

@@ -267,6 +267,7 @@ LANGUAGE = {
 	altLower = "주먹 미사용시 숨김",
 	noPerm = "이 행위를 할 권한이 없습니다.",
 	youreDead = "당신은 죽었습니다",
+	injDead = "사망했습니다.",
 	injMajor = "중상을 입음.",
 	injLittle = "부상을 입음.",
 	toggleESP = "관리자 ESP 사용",
