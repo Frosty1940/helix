@@ -243,6 +243,8 @@ end
 -- @bool[opt=false] bAllowPatterns Whether or not to accept Lua patterns in `identifier`
 -- @treturn player Player that matches the given search query - this will be `nil` if a player could not be found
 function ix.util.FindPlayer(identifier, bAllowPatterns)
+	if (#identifier == 0) then return end
+
 	if (string.find(identifier, "STEAM_(%d+):(%d+):(%d+)")) then
 		return player.GetBySteamID(identifier)
 	end
@@ -251,7 +253,7 @@ function ix.util.FindPlayer(identifier, bAllowPatterns)
 		identifier = string.PatternSafe(identifier)
 	end
 
-	for _, v in ipairs(player.GetAll()) do
+	for _, v in player.Iterator() do
 		if (ix.util.StringMatches(v:Name(), identifier)) then
 			return v
 		end
@@ -692,8 +694,7 @@ end
 
 -- Vector extension, courtesy of code_gs
 do
-	local R = debug.getregistry()
-	local VECTOR = R.Vector
+	local VECTOR = FindMetaTable("Vector")
 	local CrossProduct = VECTOR.Cross
 	local right = Vector(0, -1, 0)
 

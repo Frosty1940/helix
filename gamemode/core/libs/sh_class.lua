@@ -32,6 +32,8 @@ function ix.class.LoadFromDir(directory)
 		for _, v2 in ipairs(ix.class.list) do
 			if (v2.uniqueID == niceName) then
 				halt = true
+
+                break
 			end
 		end
 
@@ -124,7 +126,7 @@ end
 function ix.class.GetPlayers(class)
 	local players = {}
 
-	for _, v in ipairs(player.GetAll()) do
+	for _, v in player.Iterator() do
 		local char = v:GetCharacter()
 
 		if (char and char:GetClass() == class) then
@@ -176,6 +178,12 @@ if (SERVER) then
 
 				break
 			end
+		end
+
+		if (!goClass) then
+			ErrorNoHaltWithStack("[Helix] No default class set for faction '" .. team.GetName(client:Team()) .. "'")
+
+			return
 		end
 
 		self:JoinClass(goClass)

@@ -241,15 +241,11 @@ if (SERVER) then
 			timer.Create("ixCharacterInteraction" .. self:SteamID(), time, 1, function()
 				if (IsValid(self) and IsValid(entity) and IsValid(self.ixInteractionTarget) and
 					self.ixInteractionCharacter == self:GetCharacter():GetID()) then
-					local data = {}
-						data.start = self:GetShootPos()
-						data.endpos = data.start + self:GetAimVector() * 96
-						data.filter = self
-					local traceEntity = util.TraceLine(data).Entity
+					local useEntity = self:GetUseEntity()
 
-					if (IsValid(traceEntity) and traceEntity == self.ixInteractionTarget and !traceEntity.ixInteractionDirty) then
+					if (IsValid(useEntity) and useEntity == self.ixInteractionTarget and !useEntity.ixInteractionDirty) then
 						if (callback(self) != false) then
-							traceEntity.ixInteractionDirty = true
+							useEntity.ixInteractionDirty = true
 						end
 					end
 				end
@@ -337,7 +333,7 @@ if (SERVER) then
 			net.WriteUInt(time, 32)
 			net.WriteString(title)
 			net.WriteString(subTitle)
-			net.WriteString(default)
+			net.WriteString(default or "")
 		net.Send(self)
 	end
 
@@ -356,7 +352,12 @@ if (SERVER) then
 			self.ixRestrictWeps = self.ixRestrictWeps or {}
 
 			for _, v in ipairs(self:GetWeapons()) do
-				self.ixRestrictWeps[#self.ixRestrictWeps + 1] = v:GetClass()
+				self.ixRestrictWeps[#self.ixRestrictWeps + 1] = {
+					class = v:GetClass(),
+					item = v.ixItem,
+					clip = v:Clip1()
+				}
+
 				v:Remove()
 			end
 
@@ -370,7 +371,13 @@ if (SERVER) then
 
 			if (self.ixRestrictWeps) then
 				for _, v in ipairs(self.ixRestrictWeps) do
-					self:Give(v)
+					local weapon = self:Give(v.class, true)
+
+					if (v.item) then
+						weapon.ixItem = v.item
+					end
+
+					weapon:SetClip1(v.clip)
 				end
 
 				self.ixRestrictWeps = nil

@@ -19,8 +19,13 @@ function ENT:Initialize()
 		self:SetUseType(SIMPLE_USE)
 		self:SetMoveType(MOVETYPE_NONE)
 		self:DrawShadow(true)
-		self:SetSolid(SOLID_BBOX)
-		self:PhysicsInit(SOLID_BBOX)
+		self:InitPhysObj()
+
+		self:AddCallback("OnAngleChange", function(entity)
+			local mins, maxs = entity:GetAxisAlignedBoundingBox()
+
+			entity:SetCollisionBounds(mins, maxs)
+		end)
 
 		self.items = {}
 		self.messages = {}
@@ -31,13 +36,6 @@ function ENT:Initialize()
 		self:SetDescription("")
 
 		self.receivers = {}
-
-		local physObj = self:GetPhysicsObject()
-
-		if (IsValid(physObj)) then
-			physObj:EnableMotion(false)
-			physObj:Sleep()
-		end
 	end
 
 	timer.Simple(1, function()
@@ -45,6 +43,25 @@ function ENT:Initialize()
 			self:SetAnim()
 		end
 	end)
+end
+
+function ENT:InitPhysObj()
+	local mins, maxs = self:GetAxisAlignedBoundingBox()
+	local bPhysObjCreated = self:PhysicsInitBox(mins, maxs)
+
+	if (bPhysObjCreated) then
+		local physObj = self:GetPhysicsObject()
+		physObj:EnableMotion(false)
+		physObj:Sleep()
+	end
+end
+
+function ENT:GetAxisAlignedBoundingBox()
+	local mins, maxs = self:GetModelBounds()
+	mins = Vector(mins.x, mins.y, 0)
+	mins, maxs = self:GetRotatedAABB(mins, maxs)
+
+	return mins, maxs
 end
 
 function ENT:CanAccess(client)
@@ -171,7 +188,7 @@ if (SERVER) then
 	function ENT:Use(activator)
 		local character = activator:GetCharacter()
 
-		if (!self:CanAccess(activator) or hook.Run("CanPlayerUseVendor", activator) == false) then
+		if (!self:CanAccess(activator) or hook.Run("CanPlayerUseVendor", activator, self) == false) then
 			if (self.messages[VENDOR_NOTRADE]) then
 				activator:ChatPrint(self:GetDisplayName()..": "..self.messages[VENDOR_NOTRADE])
 			else

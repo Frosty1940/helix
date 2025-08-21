@@ -71,7 +71,7 @@ function GM:PlayerInitialSpawn(client)
 			client.ixLoaded = true
 			client:SetData("intro", true)
 
-			for _, v in ipairs(player.GetAll()) do
+			for _, v in player.Iterator() do
 				if (v:GetCharacter()) then
 					v:GetCharacter():Sync(client)
 				end
@@ -451,7 +451,7 @@ local function CalcPlayerCanHearPlayersVoice(listener)
 	listener.ixVoiceHear = listener.ixVoiceHear or {}
 
 	local eyePos = listener:EyePos()
-	for _, speaker in ipairs(player.GetAll()) do
+	for _, speaker in player.Iterator() do
 		local speakerEyePos = speaker:EyePos()
 		listener.ixVoiceHear[speaker] = eyePos:DistToSqr(speakerEyePos) < voiceDistance
 	end
@@ -465,7 +465,7 @@ function GM:InitializedConfig()
 end
 
 function GM:VoiceToggled(bAllowVoice)
-	for _, v in ipairs(player.GetAll()) do
+	for _, v in player.Iterator() do
 		local uniqueID = v:SteamID64() .. "ixCanHearPlayersVoice"
 
 		if (bAllowVoice) then
@@ -565,12 +565,12 @@ function GM:PostPlayerLoadout(client)
 	local character = client:GetCharacter()
 
 	if (character:GetInventory()) then
-		for _, v in pairs(character:GetInventory():GetItems()) do
-			v:Call("OnLoadout", client)
+		for k, _ in character:GetInventory():Iter() do
+			k:Call("OnLoadout", client)
 
-			if (v:GetData("equip") and v.attribBoosts) then
-				for attribKey, attribValue in pairs(v.attribBoosts) do
-					character:AddBoost(v.uniqueID, attribKey, attribValue)
+			if (k:GetData("equip") and k.attribBoosts) then
+				for attribKey, attribValue in pairs(k.attribBoosts) do
+					character:AddBoost(k.uniqueID, attribKey, attribValue)
 				end
 			end
 		end
@@ -726,7 +726,7 @@ function GM:PlayerDisconnected(client)
 		return
 	end
 
-	for _, v in ipairs(player.GetAll()) do
+	for _, v in player.Iterator() do
 		if (!v.ixVoiceHear) then
 			continue
 		end
@@ -773,7 +773,7 @@ function GM:ShutDown()
 
 	hook.Run("SaveData")
 
-	for _, v in ipairs(player.GetAll()) do
+	for _, v in player.Iterator() do
 		v:SaveData()
 
 		if (v:GetCharacter()) then
@@ -825,6 +825,9 @@ function GM:PlayerCanPickupWeapon(client, weapon)
 end
 
 function GM:OnPhysgunFreeze(weapon, physObj, entity, client)
+    -- Validate the physObj, to prevent errors on entities who have no physics object
+    if (!IsValid(physObj)) then return false end
+
 	-- Object is already frozen (!?)
 	if (!physObj:IsMoveable()) then return false end
 	if (entity:GetUnFreezable()) then return false end
@@ -869,9 +872,9 @@ end
 function GM:CharacterPreSave(character)
 	local client = character:GetPlayer()
 
-	for _, v in pairs(character:GetInventory():GetItems()) do
-		if (v.OnSave) then
-			v:Call("OnSave", client)
+	for k, _ in character:GetInventory():Iter() do
+		if (k.OnSave) then
+			k:Call("OnSave", client)
 		end
 	end
 
@@ -880,7 +883,7 @@ function GM:CharacterPreSave(character)
 end
 
 timer.Create("ixLifeGuard", 1, 0, function()
-	for _, v in ipairs(player.GetAll()) do
+	for _, v in player.Iterator() do
 		if (v:GetCharacter() and v:Alive() and hook.Run("ShouldPlayerDrowned", v) != false) then
 			if (v:WaterLevel() >= 3) then
 				if (!v.drowningTime) then
